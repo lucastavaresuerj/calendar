@@ -1,0 +1,90 @@
+.center {
+  text-align: center !important;
+}
+
+.signin .divider.signin-divider {
+  top: 55%;
+  height: 30%;
+}
+
+.login .ui.centered .column.login-form {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.login-options {
+  margin-top: 10%;
+  margin-left: 20%;
+  margin-right: 20%;
+  button.ui.button {
+    margin-bottom: 10%;
+  }
+}
+
+.login .ui.grid .column.calendar {
+  background-color: lightblue;
+  padding-top: 10%;
+  padding-inline: 5%;
+}
+
+.login .ui.grid {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.disable {
+  opacity: 0.25;
+}
+
+h3.header.login-header {
+  padding-bottom: 50px;
+}
+
+.grid {
+  height: 93.5vh;
+}
+
+.label-input,
+.ui.form .field.label-input > label {
+  color: rgba(0, 0, 0, 0.25);
+  text-align: left;
+}
+
+input.text-line,
+.ui.form .field input.text-line {
+  $color: rgb(100, 100, 100);
+  color: $color;
+  border-radius: 0%;
+  outline: 0;
+  border-width: 0 0 1px;
+  border-color: $color !important;
+}
+
+.login-form.ui.form .ui.icon.input > i.icon {
+  top: 20px;
+  height: unset;
+}
+
+.login-form.ui.form .field .ui.input {
+  input {
+    width: 100%;
+  }
+  display: block;
+  text-align: center;
+  justify-content: center;
+}
+.calendar-month {
+  .ui.table:hover {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+
+  .table-month tr {
+    th,
+    td {
+      &:not(.disable):hover {
+        font-weight: bold;
+        cursor: pointer;
+      }
+    }
+  }
+}
