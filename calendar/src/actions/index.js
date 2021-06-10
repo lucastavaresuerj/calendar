@@ -11,10 +11,10 @@ import {
 import history from "../history";
 import calendars from "../apis/calendars";
 
-export function signIn(userId, signOut) {
+export function signIn(userId, userName, signOut) {
   return {
     type: SIGN_IN,
-    payload: { userId, signOut },
+    payload: { userId, userName, signOut },
   };
 }
 

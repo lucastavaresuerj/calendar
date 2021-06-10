@@ -2,6 +2,13 @@
   text-align: center !important;
 }
 
+button > {
+  a,
+  a:hover {
+    color: inherit;
+  }
+}
+
 .signin .divider.signin-divider {
   top: 55%;
   height: 30%;
@@ -58,6 +65,10 @@ input.text-line,
   outline: 0;
   border-width: 0 0 1px;
   border-color: $color !important;
+}
+
+.ui.progress.progress-password > .label {
+  position: relative;
 }
 
 .login-form.ui.form .ui.icon.input > i.icon {

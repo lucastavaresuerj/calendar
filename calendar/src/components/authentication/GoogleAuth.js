@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Button, Icon } from "semantic-ui-react";
 
 import { signIn, signOut } from "../../actions";
+import history from "../../history";
 
 class GoogleAuth extends React.Component {
   constructor(props) {
@@ -30,7 +31,16 @@ class GoogleAuth extends React.Component {
 
   onAuthChange(isSignedIn) {
     if (isSignedIn) {
-      this.props.signIn(this.auth.currentUser.get().getId(), this.auth.signOut);
+      this.props.signIn(
+        ...this.auth.currentUser.get().getId(),
+        ...this.auth.currentUser.get().getBasicProfile().getName(),
+        this.auth.signOut
+      );
+      console.log(
+        "Name ",
+        this.auth.currentUser.get().getBasicProfile().getName()
+      );
+      history.push("/");
     } else {
       this.props.signOut();
     }

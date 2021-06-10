@@ -12,4 +12,10 @@ app.listen(port, async () => {
   console.log(`App listening at http://localhost:${port}`);
 });
 
+/*
+app.use(function (req, res, next) {
+  setTimeout(next, 1000);
+});
+*/
+
 module.exports = app;

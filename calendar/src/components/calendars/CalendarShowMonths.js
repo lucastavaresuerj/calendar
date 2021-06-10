@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Grid } from "semantic-ui-react";
+import { Grid, Container } from "semantic-ui-react";
 
 import { fetchCalendar } from "../../actions";
 import CalendarMonth from "./CalendarMonth";
@@ -48,10 +48,10 @@ class CalendarShow extends React.Component {
         <Lang>
           {({ months }) => {
             return (
-              <React.Fragment>
+              <Container>
                 <h1 className="center">{this.props.calendar.year}</h1>
                 <Grid stackable>{this.renderMonths(4, 3, months)}</Grid>
-              </React.Fragment>
+              </Container>
             );
           }}
         </Lang>

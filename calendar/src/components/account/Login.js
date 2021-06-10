@@ -58,7 +58,9 @@ class Login extends React.Component {
                     Or
                   </Divider>
                   <GoogleAuth />
+
                   <div className="create-account">
+                    <br />
                     New to Calendars? {"  "}
                     <Link to="/signin">Create Account</Link>
                   </div>

@@ -18,7 +18,7 @@ class loginForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { error: 0, isPasswordVisible: false };
+    this.state = { error: 0, isPasswordVisible: false, isLoading: false };
 
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
@@ -31,6 +31,7 @@ class loginForm extends React.Component {
 
   onError(status) {
     this.setState({ error: status });
+    this.setState({ isLoading: false });
   }
 
   async logout() {
@@ -38,18 +39,19 @@ class loginForm extends React.Component {
     this.props.signOut();
   }
 
-  async login({ email, password }) {
+  async login({ email, password, userName }) {
     try {
       const {
         status,
-        data: { id },
+        data: { id, name },
       } = await calendars.post(
         `users/${this.props.signin ? "signin" : "login"}`,
-        { email, password }
+        { email, password, name: userName }
       );
 
+      console.log(id, name);
       if (status === 200) {
-        this.props.signIn(id, this.logout);
+        this.props.signIn(id, name, this.logout);
         this.props.onLogin();
       } else {
         this.onError(status);
@@ -61,6 +63,7 @@ class loginForm extends React.Component {
   }
 
   onSubmit(formValues) {
+    this.setState({ isLoading: true });
     this.login(formValues);
   }
 
@@ -81,7 +84,7 @@ class loginForm extends React.Component {
   renderIconPassword() {
     return (
       <Icon
-        name="eye"
+        name={this.state.isPasswordVisible ? "eye slash" : "eye"}
         link
         onClick={(e) => {
           this.setState({
@@ -96,42 +99,43 @@ class loginForm extends React.Component {
     if (!this.props.signin) {
       return null;
     }
-    var warning = "",
-      warnCont = 4,
-      min = "You must add at least 8 characters";
+    var warnings = [];
     const colors = ["grey", "orange", "yellow", "teal", "olive", "green"];
 
-    if (!/.{8,}/g.test(str)) {
-      warning = min;
-    }
-
-    if (!/\W/g.test(str)) {
-      warning = "You must add special characters";
-      warnCont--;
+    if (!/[a-z]/g.test(str)) {
+      warnings.push("You must add low case characters");
     }
     if (!/[A-Z]/g.test(str)) {
-      warning = "You must add upper case characters";
-      warnCont--;
+      warnings.push("You must add upper case characters");
     }
     if (!/\d/g.test(str)) {
-      warning = "You must add digits characters";
-      warnCont--;
+      warnings.push("You must add digits characters");
     }
-    if (!/[a-z]/g.test(str)) {
-      warning = "You must add low case characters";
-      warnCont--;
+    if (!/\W/g.test(str)) {
+      warnings.push("You must add special characters");
     }
+    if (!/.{8,}/g.test(str)) {
+      warnings.push("You must add at least 8 characters");
+    }
+    const color = colors[5 - warnings.length + (str.length >= 20)];
 
-    const color = colors[warnCont + (str.length >= 20)];
+    const renderedWarnins = warnings.map((warn, index) => {
+      return (
+        <div key={`warn#${index}`}>
+          {warn}
+          <br />
+        </div>
+      );
+    });
     return (
       <Progress
-        percent={warnCont * 20 + Math.min(20, str.length)}
-        disabled={!warnCont && !str.length}
+        percent={(5 - warnings.length) * 17 + Math.min(15, str.length)}
+        disabled={warnings && !str.length}
         className="progress-password"
         color={color}
         progress
       >
-        {warnCont === 0 ? min : warning}
+        {renderedWarnins.length ? renderedWarnins : "All done"}
       </Progress>
     );
   }
@@ -175,10 +179,18 @@ class loginForm extends React.Component {
     return (
       <Form
         onSubmit={this.props.handleSubmit(this.onSubmit)}
-        loading={false}
+        loading={this.state.isLoading}
         className="login-form"
         id={this.props.name}
       >
+        <Field
+          name="userName"
+          type="text"
+          placeholder="Your Name"
+          component={this.renderField}
+          label="User Name"
+          disabled={!this.props.signin}
+        />
         <Field
           name="email"
           type="text"
@@ -225,13 +237,19 @@ function validateForm(formValues, props) {
     error.password = "You must enter a password";
   }
   if (props.signin) {
+    if (!formValues.userName || formValues.userName.length < 3) {
+      error.userName = "You must enter at least 3 characters";
+    }
     if (formValues.password) {
       const str = formValues.password;
       error.password =
-        /\W/g.test(str) +
-          /[A-Z]/g.test(str) +
-          /[a-z]/g.test(str) +
-          /\d/g.test(str) && "Password requisites not attended";
+        !/\W/g.test(str) +
+        !/[A-Z]/g.test(str) +
+        !/[a-z]/g.test(str) +
+        !/\d/g.test(str) +
+        !/.{8,}/g.test(str)
+          ? "Password requisites not attended"
+          : null;
     }
     if (formValues.password && formValues.password.length < 8) {
       error.password = "You must enter at least 8 characters";
@@ -251,8 +269,4 @@ const loginFormRedux = reduxForm({
   validate: validateForm,
 })(loginForm);
 
-function mapStateToProps(state, ownProps) {
-  return { ownProps };
-}
-
-export default connect(mapStateToProps, { signIn, signOut })(loginFormRedux);
+export default connect(null, { signIn, signOut })(loginFormRedux);

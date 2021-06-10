@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Grid, Divider, Header, Segment } from "semantic-ui-react";
+import { Grid, Divider, Header, Icon } from "semantic-ui-react";
 
 import GoogleAuth from "../authentication/GoogleAuth";
 import history from "../../history";
@@ -51,11 +51,15 @@ class Login extends React.Component {
                   <LoginForm signin onLogin={this.onLogin} />
                 </Grid.Column>
                 <Grid.Column width={9} verticalAlign="middle">
-                  <GoogleAuth />
+                  <Icon name="user circle" size="massive" />
                   <div className="create-account">
-                    New to Calendars? {"  "}
-                    <Link to="/signin">Create Account</Link>
+                    <br />
+                    Already registed? {"  "}
+                    <Link to="/login">Login here</Link>
+                    <br />
+                    <br />
                   </div>
+                  <GoogleAuth />
                 </Grid.Column>
               </Grid>
               <Divider vertical className="signin-divider">

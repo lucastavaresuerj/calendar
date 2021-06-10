@@ -21,7 +21,6 @@ router.route("/login").all(async function (req, res, next) {
     case POST:
       try {
         var user = (await db.find("users", { email: emailB }))[0];
-        var { id } = user;
       } catch (error) {
         res.status(403);
         break;
@@ -29,8 +28,9 @@ router.route("/login").all(async function (req, res, next) {
 
       const hashPassword = hash("sha256").update(password).digest("hex");
       if (hashPassword == user.password) {
+        const { id, name } = user;
         await db.update("users", { id }, { isOnline: true });
-        res.status(200).send({ id });
+        res.status(200).send({ id, name });
       } else {
         res.status(403);
       }
@@ -73,12 +73,12 @@ router.route("/signin").all(async function (req, res, next) {
         res.status(500);
       }
       const hashPassword = hash("sha256").update(password).digest("hex");
-      const { id } = await db.insert("users", {
-        email,
+      const { id, name } = await db.insert("users", {
+        ...req.body,
         password: hashPassword,
         isOnline: true,
       });
-      res.status(200).send({ id });
+      res.status(200).send({ id, name });
       break;
     default:
       res.status(405);

@@ -11,7 +11,11 @@ class ButtonAdmin extends React.Component {
 
   render() {
     if (this.props.isSignedIn) {
-      return <Button {...this.props.ownPorps}>{this.props.children}</Button>;
+      return (
+        <Button {...this.props.ownPorps}>
+          <Link to={this.props.to}>{this.props.children}</Link>
+        </Button>
+      );
     }
     return (
       <Modal

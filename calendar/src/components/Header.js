@@ -10,7 +10,7 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     const activeItem = this.props.history.location.pathname.replace(
-      /(\/.+?)?($|\/.*)/g,
+      /(\/?.+?)($|\/.*)/g,
       "$1"
     );
     this.state = { activeItem };
@@ -25,7 +25,10 @@ class Header extends React.Component {
       <Menu.Item
         name="Login"
         to="/login"
-        active={this.state.activeItem === "/login"}
+        active={
+          this.state.activeItem === "/login" ||
+          this.state.activeItem === "/signin"
+        }
         onClick={this.handleItemClick}
       />
     );
@@ -51,7 +54,7 @@ class Header extends React.Component {
               />
               <Menu.Menu position="right">
                 <Menu.Item>
-                  <ButtonAdmin>Create Calendar</ButtonAdmin>
+                  <ButtonAdmin to="/calendars/new">Create Calendar</ButtonAdmin>
                 </Menu.Item>
                 <Menu.Item>
                   <SelectLang onLanguageChange={this.props.onLanguageChange} />
