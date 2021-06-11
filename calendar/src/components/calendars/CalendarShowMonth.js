@@ -64,6 +64,8 @@ class CalendarShowMonth extends React.Component {
   }
 
   render() {
+    console.log("aqui");
+
     if (!this.props.calendar) {
       return <div>Loading...</div>;
     }

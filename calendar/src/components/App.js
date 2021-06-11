@@ -12,6 +12,7 @@ import locale from "../locale";
 import Login from "./account/Login";
 import SignIn from "./account/SignIn";
 import CalendarCreate from "./calendars/CalendarCreate";
+import CalendarEdit from "./calendars/CalendarEdit";
 import CalendarList from "./calendars/CalendarList";
 import CalendarShowMonths from "./calendars/CalendarShowMonths";
 import CalendarShowMonth from "./calendars/CalendarShowMonth";
@@ -62,11 +63,22 @@ class App extends React.Component {
                 component={CalendarCreate}
                 onRedirect={this.onRedirect}
               />
+              <PrivateRoute
+                path="/calendars/edit/:id"
+                exact
+                component={CalendarEdit}
+                onRedirect={this.onRedirect}
+              />
               <Route
+                exact
                 path="/calendars/:id/:month"
                 component={CalendarShowMonth}
               />
-              <Route path="/calendars/:id" component={CalendarShowMonths} />
+              <Route
+                exact
+                path="/calendars/:id"
+                component={CalendarShowMonths}
+              />
             </Switch>
           </Router>
         </div>

@@ -37,7 +37,7 @@ export function fetchCalendars(callback) {
 export function fetchCalendar(id, callback) {
   return async function (dispatch) {
     const response = await calendars.get("/calendars/" + id);
-    dispatch({ type: FETCH_CALENDAR, payload: response.data });
+    dispatch({ type: FETCH_CALENDAR, payload: response.data[0] });
     if (callback) {
       callback(response);
     }

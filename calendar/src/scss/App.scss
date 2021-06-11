@@ -2,11 +2,21 @@
   text-align: center !important;
 }
 
+.ui .item:is(a) {
+  margin: -2px 0;
+}
+
 button > {
   a,
   a:hover {
     color: inherit;
+    padding-top: inherit;
+    padding-bottom: inherit;
   }
+}
+
+.ui.button.edit-button {
+  margin-left: -100px;
 }
 
 .signin .divider.signin-divider {

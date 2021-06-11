@@ -87,7 +87,7 @@ class CalendarMonth extends React.Component {
 
   render() {
     return (
-      <div className={`calendar-month ${this.props.className}`}>
+      <div className={`calendar-month month-${this.props.month}`}>
         <Lang>
           {({ weeks }) => {
             return (
