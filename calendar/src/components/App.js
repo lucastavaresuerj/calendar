@@ -57,12 +57,7 @@ class App extends React.Component {
               <Route path="/" exact component={CalendarList} />
               <Route path="/login" exact component={Login} />
               <Route path="/signin" exact component={SignIn} />
-              <PrivateRoute
-                path="/calendars/new"
-                exact
-                component={CalendarCreate}
-                onRedirect={this.onRedirect}
-              />
+              <Route path="/calendars/new" exact component={CalendarCreate} />
               <PrivateRoute
                 path="/calendars/edit/:id"
                 exact

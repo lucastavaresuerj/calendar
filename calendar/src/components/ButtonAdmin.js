@@ -12,8 +12,8 @@ class ButtonAdmin extends React.Component {
   render() {
     if (this.props.isSignedIn) {
       return (
-        <Button {...this.props.ownPorps}>
-          <Link to={this.props.to}>{this.props.children}</Link>
+        <Button as={Link} {...this.props.ownPorps}>
+          {this.props.children}
         </Button>
       );
     }
@@ -34,11 +34,13 @@ class ButtonAdmin extends React.Component {
         </Modal.Content>
         <Modal.Actions>
           Login with:{" "}
-          <Link to="/login">
-            <Button onClick={() => this.setState({ isOpen: false })}>
-              Login
-            </Button>
-          </Link>
+          <Button
+            as={Link}
+            to="/login"
+            onClick={() => this.setState({ isOpen: false })}
+          >
+            Login
+          </Button>
         </Modal.Actions>
       </Modal>
     );

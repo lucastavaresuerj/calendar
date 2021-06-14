@@ -1,4 +1,8 @@
-import { FETCH_CALENDARS, FETCH_CALENDAR } from "../actions/types";
+import {
+  FETCH_CALENDARS,
+  FETCH_CALENDAR,
+  EDIT_CALENDAR,
+} from "../actions/types";
 
 export default function calendarReducer(state = {}, action) {
   switch (action.type) {
@@ -9,6 +13,8 @@ export default function calendarReducer(state = {}, action) {
       );
       return { ...state, ...calendars };
     case FETCH_CALENDAR:
+      return { ...state, [action.payload.id]: action.payload };
+    case EDIT_CALENDAR:
       return { ...state, [action.payload.id]: action.payload };
     default:
       return state;

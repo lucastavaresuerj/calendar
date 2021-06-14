@@ -1,24 +1,54 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Tab, Form } from "semantic-ui-react";
 
-import { fetchCalendar, updateCalendar } from "../../actions";
+import BasicInformation from "./calendarForms/BasicInformation";
+import {
+  updateCalendar,
+  selectAtualCalendar,
+  editAtualCalendar,
+  desselectAtualCalendar,
+} from "../../actions";
 
 class CalendarEdit extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.onBasicSubmint = this.onBasicSubmint.bind(this);
+  }
+
   componentDidMount() {
-    if (!this.props.calendar) {
-      this.props.fetchCalendar(this.props.match.params.id);
-    }
+    this.props.selectAtualCalendar(this.props.calendar);
+  }
+
+  componentWillUnmount() {
+    this.props.desselectAtualCalendar();
+  }
+
+  onBasicSubmint(formValues) {
+    console.log("submit", formValues);
+    Object.keys(formValues).length && this.props.editAtualCalendar(formValues);
   }
 
   render() {
-    return <div>Edit calendar</div>;
+    const { calendar } = this.props;
+    return (
+      <div className="calendar-edit">
+        <BasicInformation calendar={calendar} onSubmit={this.onBasicSubmint} />
+      </div>
+    );
   }
 }
 
+/*
 function mapStateToProps(state, ownProps) {
   return { calendar: state.calendars[ownProps.match.params.id] };
 }
+*/
 
-export default connect(mapStateToProps, { fetchCalendar, updateCalendar })(
-  CalendarEdit
-);
+export default connect(null, {
+  updateCalendar,
+  selectAtualCalendar,
+  editAtualCalendar,
+  desselectAtualCalendar,
+})(CalendarEdit);

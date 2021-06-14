@@ -6,6 +6,9 @@ import {
   CREATE_CALENDAR,
   EDIT_CALENDAR,
   DELETE_CALENDAR,
+  SELECT_ATUAL_CALENDAR,
+  EDIT_ATUAL_CALENDAR,
+  DESSELECT_ATUAL_CALENDAR,
 } from "./types";
 
 import history from "../history";
@@ -82,4 +85,16 @@ export function deleteCalendar(id, callback) {
 
     history.push("/");
   };
+}
+
+export function selectAtualCalendar(calendar) {
+  return { type: SELECT_ATUAL_CALENDAR, payload: calendar };
+}
+
+export function editAtualCalendar(editedFields) {
+  return { type: EDIT_ATUAL_CALENDAR, payload: editedFields };
+}
+
+export function desselectAtualCalendar() {
+  return { type: DESSELECT_ATUAL_CALENDAR };
 }
