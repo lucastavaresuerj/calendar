@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Tab, Form } from "semantic-ui-react";
+import { Tab, Button } from "semantic-ui-react";
 
 import BasicInformation from "./calendarForms/BasicInformation";
+
 import {
   updateCalendar,
   selectAtualCalendar,
@@ -14,7 +15,34 @@ class CalendarEdit extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onBasicSubmint = this.onBasicSubmint.bind(this);
+    this.state = {};
+    this.onSubmit = this.onSubmit.bind(this);
+    this.createPane = this.createPane.bind(this);
+    this.saveUpdates = this.saveUpdates.bind(this);
+  }
+
+  saveUpdates() {
+    this.props.updateCalendar(this.props.calendar.id, this.state);
+  }
+
+  createPane() {
+    const { calendar } = this.props;
+    const panes = [
+      {
+        menuItem: "Basic",
+        pane: <BasicInformation calendar={calendar} onSubmit={this.onSubmit} />,
+      },
+    ];
+
+    return panes.map((pane) => {
+      pane.pane = (
+        <Tab.Pane key={pane.menuItem}>
+          {pane.pane}
+          <Button onClick={this.props.updateCalendar}>Save</Button>
+        </Tab.Pane>
+      );
+      return pane;
+    });
   }
 
   componentDidMount() {
@@ -25,26 +53,22 @@ class CalendarEdit extends React.Component {
     this.props.desselectAtualCalendar();
   }
 
-  onBasicSubmint(formValues) {
+  onSubmit(formValues) {
     console.log("submit", formValues);
-    Object.keys(formValues).length && this.props.editAtualCalendar(formValues);
+    for (let field in formValues) {
+      this.setState({ [field]: formValues[field] });
+      this.props.editAtualCalendar(formValues);
+    }
   }
 
   render() {
-    const { calendar } = this.props;
     return (
       <div className="calendar-edit">
-        <BasicInformation calendar={calendar} onSubmit={this.onBasicSubmint} />
+        <Tab panes={this.createPane()} renderActiveOnly={false} />
       </div>
     );
   }
 }
-
-/*
-function mapStateToProps(state, ownProps) {
-  return { calendar: state.calendars[ownProps.match.params.id] };
-}
-*/
 
 export default connect(null, {
   updateCalendar,

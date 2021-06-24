@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Grid, Card, Container, Button } from "semantic-ui-react";
 
-import { fetchCalendar } from "../../actions";
+import { fetchCalendar, selectAtualCalendar } from "../../actions";
 import CalendarMonth from "./CalendarMonth";
 import CalendarEdit from "./CalendarEdit";
 import history from "../../history";
@@ -13,8 +13,9 @@ class CalendarShowMonths extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { edit: false };
+    this.state = { edit: false, calendar: null };
     this.renderEdit = this.renderEdit.bind(this);
+    this.renderMonths = this.renderMonths.bind(this);
   }
 
   renderMonths(rows, columns, months) {
@@ -25,7 +26,7 @@ class CalendarShowMonths extends React.Component {
         const month = r * columns + c;
         gridColumns.push(
           <Grid.Column key={month}>
-            <Card color="red">
+            <Card color="red" fluid className="month-card">
               <Link to={`${history.location.pathname}/${month}`}>
                 <h2 className="month-name center">{months.full[month]}</h2>
               </Link>
@@ -50,27 +51,31 @@ class CalendarShowMonths extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.edit !== prevState.edit) {
-      this.calendar = this.state.edit
-        ? this.props.calendarEdited
-        : this.props.calendar;
+    if (this.state.edit !== prevState.edit && this.state.edit === true) {
+      this.props.selectAtualCalendar(this.props.calendar);
     }
   }
 
   renderEdit() {
-    return this.state.edit && <CalendarEdit calendar={this.props.calendar} />;
+    if (this.state.edit) {
+      return <CalendarEdit calendar={this.props.calendar} />;
+    }
+    return null;
   }
 
   render() {
-    this.calendar = this.props.calendar;
+    this.calendar = this.state.edit
+      ? this.props.calendarEdited
+      : this.props.calendar;
+
     if (!this.calendar) {
       return <div>Loading...</div>;
     }
     return (
-      <div className="calendar-months">
-        <Lang>
-          {({ months }) => {
-            return (
+      <Lang>
+        {({ months }) => {
+          return (
+            <div className="calendar-months">
               <Container>
                 <Button
                   className="edit-button"
@@ -79,16 +84,16 @@ class CalendarShowMonths extends React.Component {
                 >
                   Edit
                 </Button>
-                <br />
                 {this.renderEdit()}
+                <br />
                 <h1 className="center">{this.calendar.year}</h1>
                 <h2 className="center">{this.calendar.title}</h2>
                 <Grid stackable>{this.renderMonths(4, 3, months)}</Grid>
               </Container>
-            );
-          }}
-        </Lang>
-      </div>
+            </div>
+          );
+        }}
+      </Lang>
     );
   }
 }
@@ -100,4 +105,6 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps, { fetchCalendar })(CalendarShowMonths);
+export default connect(mapStateToProps, { fetchCalendar, selectAtualCalendar })(
+  CalendarShowMonths
+);

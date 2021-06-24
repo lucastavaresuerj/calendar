@@ -3,62 +3,82 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { Form, Input, Button } from "semantic-ui-react";
 
-import { renderInput } from "./renderFields";
+import { RenderInput, RenderYear } from "./RenderFields";
 
 class BasicInformation extends React.Component {
-  renderYear({ input, placeholder, label, meta: { touched, error } }) {
-    return (
-      <Form.Field width="5">
-        <Form.Input placeholder={placeholder} label={label}>
-          <input />
-          <Button.Group>
-            <Button icon="plus" />
-            <Button icon="minus" />
-          </Button.Group>
-        </Form.Input>
-      </Form.Field>
-    );
+  constructor(props) {
+    super(props);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(values) {
+    const { calendar } = this.props;
+    if (!values.title) values.title = calendar.title;
+    if (!values.description) values.description = calendar.description;
+    this.props.onSubmit(values);
   }
 
   render() {
     const { calendar } = this.props;
     return (
-      <Form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+      <Form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
         <Form.Group widths="equal">
           <Field
             name="title"
             label="Change Title"
             type="text"
             placeholder={calendar.title}
-            component={renderInput}
+            component={RenderInput}
           />
           <Field
             name="description"
             label="Change Description"
             type="text"
             placeholder={calendar.description}
-            component={renderInput}
+            component={RenderInput}
           />
-          <Field
-            name="year"
-            label="Change Year"
-            placeholder={calendar.year}
-            component={this.renderYear}
-          />
+          <Button type="submit">Apply</Button>
         </Form.Group>
       </Form>
     );
   }
 }
 
-function validateForm(formValues) {
+{
+  /** 
+          <RenderYear
+            name="year"
+            label="Change Year"
+            placeholder={calendar.year}
+          />
+          */
+}
+
+function warn(formValues, props) {
+  const warning = {};
+
+  if (formValues.title && formValues.title.length < 4) {
+    warning.title = "title to short";
+  }
+  return warning;
+}
+
+function validate(formValues, props) {
   const error = {};
+
+  if (props.edit && true) {
+    if (!formValues.title) {
+      error.title = "Must enter a title";
+    }
+  }
   return error;
 }
 
-BasicInformation = reduxForm({
+const BasicInformationForm = reduxForm({
   form: "BasicInformationForm",
-  validate: validateForm,
+  validate,
+  warn,
 })(BasicInformation);
 
-export default connect(null)(BasicInformation);
+export default connect(null)(BasicInformationForm);
