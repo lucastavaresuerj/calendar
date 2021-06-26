@@ -1,9 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm, change } from "redux-form";
 import { Form, Input, Button } from "semantic-ui-react";
 
-import { RenderInput, RenderYear } from "./RenderFields";
+import { RenderInput, RenderIncrementInput } from "./RenderFields";
+
+const form = "BasicInformationForm";
 
 class BasicInformation extends React.Component {
   constructor(props) {
@@ -12,22 +14,26 @@ class BasicInformation extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(values) {
+  handleSubmit({ title, description, year }) {
     const { calendar } = this.props;
-    if (!values.title) values.title = calendar.title;
-    if (!values.description) values.description = calendar.description;
-    this.props.onSubmit(values);
+    const sendValues = {};
+
+    sendValues.year = (year || calendar.year).toString();
+    sendValues.title = title || calendar.title;
+    sendValues.description = description || calendar.description;
+    this.props.onSubmit(sendValues);
   }
 
   render() {
     const { calendar } = this.props;
     return (
       <Form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
-        <Form.Group widths="equal">
+        <Form.Group>
           <Field
             name="title"
             label="Change Title"
             type="text"
+            width={6}
             placeholder={calendar.title}
             component={RenderInput}
           />
@@ -35,24 +41,23 @@ class BasicInformation extends React.Component {
             name="description"
             label="Change Description"
             type="text"
+            width={6}
             placeholder={calendar.description}
             component={RenderInput}
+          />
+          <Field
+            name="year"
+            label="Change Year"
+            type="text"
+            width={4}
+            placeholder={calendar.year}
+            component={RenderIncrementInput}
           />
           <Button type="submit">Apply</Button>
         </Form.Group>
       </Form>
     );
   }
-}
-
-{
-  /** 
-          <RenderYear
-            name="year"
-            label="Change Year"
-            placeholder={calendar.year}
-          />
-          */
 }
 
 function warn(formValues, props) {
@@ -76,7 +81,7 @@ function validate(formValues, props) {
 }
 
 const BasicInformationForm = reduxForm({
-  form: "BasicInformationForm",
+  form,
   validate,
   warn,
 })(BasicInformation);

@@ -35,10 +35,10 @@ class CalendarEdit extends React.Component {
     ];
 
     return panes.map((pane) => {
-      pane.pane = (
+      pane.render = () => (
         <Tab.Pane key={pane.menuItem}>
           {pane.pane}
-          <Button onClick={this.props.updateCalendar}>Save</Button>
+          <Button onClick={this.saveUpdates}>Save</Button>
         </Tab.Pane>
       );
       return pane;
@@ -64,7 +64,7 @@ class CalendarEdit extends React.Component {
   render() {
     return (
       <div className="calendar-edit">
-        <Tab panes={this.createPane()} renderActiveOnly={false} />
+        <Tab panes={this.createPane()} />
       </div>
     );
   }

@@ -1,4 +1,5 @@
-import React from "react";
+import { change } from "redux-form";
+import React, { useState } from "react";
 import { Form, Label, Input, Button } from "semantic-ui-react";
 
 function RenderError({ meta: { touched, error, warning }, pointing }) {
@@ -17,13 +18,14 @@ export function RenderInput({
   label,
   placeholder,
   type,
+  width,
   disabled,
   meta: { touched, error, warning },
   meta,
 }) {
   if (disabled) return null;
   return (
-    <Form.Field error={error && touched && !warning}>
+    <Form.Field width={width} error={error && touched && !warning}>
       <label>{label}</label>
       <Input>
         <input {...input} type={type} placeholder={placeholder} />
@@ -33,19 +35,38 @@ export function RenderInput({
   );
 }
 
-export class RenderYear extends React.Component {
-  render() {
-    const { input, placeholder, label } = this.props;
-    return (
-      <Form.Field width="5">
-        <Form.Input placeholder={placeholder} label={label}>
-          <input />
-          <Button.Group>
-            <Button icon="plus" />
-            <Button icon="minus" />
-          </Button.Group>
-        </Form.Input>
-      </Form.Field>
-    );
+export function RenderIncrementInput({
+  input,
+  label,
+  placeholder,
+  type,
+  width,
+  disabled,
+  meta: { touched, error, warning },
+  meta,
+}) {
+  const [year, setYear] = useState(null);
+
+  function handleButtons(num) {
+    const newYear = (year || placeholder) + num;
+    setYear(newYear);
+    meta.dispatch(change(meta.form, input.name, newYear));
   }
+
+  return (
+    <Form.Field width={width} error={error && touched && !warning}>
+      <label>{label}</label>
+      <Input>
+        <input {...input} type={type} placeholder={placeholder} />
+        <Button.Group>
+          <Button type="button" icon="plus" onClick={() => handleButtons(1)} />
+          <Button
+            type="button"
+            icon="minus"
+            onClick={() => handleButtons(-1)}
+          />
+        </Button.Group>
+      </Input>
+    </Form.Field>
+  );
 }
