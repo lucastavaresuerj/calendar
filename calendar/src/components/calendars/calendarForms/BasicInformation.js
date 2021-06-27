@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Field, reduxForm, change } from "redux-form";
-import { Form, Input, Button } from "semantic-ui-react";
+import { Field, reduxForm } from "redux-form";
+import { Form, Button } from "semantic-ui-react";
 
-import { RenderInput, RenderIncrementInput } from "./RenderFields";
+import { RenderInput, RenderIncrementInput } from "./renderFields";
 
 const form = "BasicInformationForm";
 
@@ -66,11 +66,20 @@ function warn(formValues, props) {
   if (formValues.title && formValues.title.length < 4) {
     warning.title = "title to short";
   }
+
+  if (formValues.year && !/^(19|20)\d{2}$/g.test(formValues.year)) {
+    warning.year = "The year must be between 1900 and 2099";
+  }
+
   return warning;
 }
 
 function validate(formValues, props) {
   const error = {};
+
+  if (formValues.year && isNaN(formValues.year)) {
+    error.year = "The year must be a number";
+  }
 
   if (props.edit && true) {
     if (!formValues.title) {

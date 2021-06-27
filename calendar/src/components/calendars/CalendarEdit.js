@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Tab, Button } from "semantic-ui-react";
 
-import BasicInformation from "./calendarForms/BasicInformation";
+import { BasicInformation, Color } from "./calendarForms";
 
 import {
   updateCalendar,
@@ -31,6 +31,10 @@ class CalendarEdit extends React.Component {
       {
         menuItem: "Basic",
         pane: <BasicInformation calendar={calendar} onSubmit={this.onSubmit} />,
+      },
+      {
+        menuItem: "Color",
+        pane: <Color calendar={calendar} onSubmit={this.onSubmit} />,
       },
     ];
 

@@ -114,3 +114,31 @@ input.text-line,
 .ui.card.fluid.month-card {
   padding: 10px;
 }
+
+.color-piker {
+  &.input > .ui.label.hash-color {
+    font-size: 1.25em;
+    padding: 0.5833em 0.833em;
+  }
+  .color {
+    width: 36px;
+    height: 18px;
+    border-radius: 2px;
+  }
+  .popover {
+    position: absolute;
+    z-index: 2;
+  }
+  .piker {
+    position: relative;
+    top: 2px;
+  }
+  .button {
+    padding: 5px;
+    background: #fff;
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    cursor: pointer;
+  }
+}

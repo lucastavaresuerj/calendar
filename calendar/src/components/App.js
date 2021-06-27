@@ -11,9 +11,9 @@ import locale from "../locale";
 
 import Login from "./account/Login";
 import SignIn from "./account/SignIn";
-import CalendarCreate from "./calendars/CalendarCreate";
 import CalendarEdit from "./calendars/CalendarEdit";
 import CalendarList from "./calendars/CalendarList";
+import CalendarCreate from "./calendars/CalendarCreate";
 import CalendarShowMonths from "./calendars/CalendarShowMonths";
 import CalendarShowMonth from "./calendars/CalendarShowMonth";
 
