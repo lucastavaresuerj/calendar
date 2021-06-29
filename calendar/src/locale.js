@@ -5,15 +5,15 @@ const locale = {
     lang: "pt",
     selectLang: "Selecione a linguagem",
     weeks: {
-      abr: ["SEG", "TER", "QUA", "QUI", "SEX", "SAB", "DOM"],
+      abr: ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"],
       full: [
+        "DOMINGO",
         "SEGUNDA",
         "TERÇA",
         "QUARTA",
         "QUINTA",
         "SEXTA",
         "SÁBADO",
-        "DOMINGO",
       ],
     },
     months: {

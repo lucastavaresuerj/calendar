@@ -26,7 +26,14 @@ class CalendarShowMonths extends React.Component {
         const month = r * columns + c;
         gridColumns.push(
           <Grid.Column key={month}>
-            <Card color="red" fluid className="month-card">
+            <Card
+              fluid
+              className="month-card"
+              style={{
+                backgroundColor:
+                  this.props.calendar.color.months[month].background,
+              }}
+            >
               <Link to={`${history.location.pathname}/${month}`}>
                 <h2 className="month-name center">{months.full[month]}</h2>
               </Link>
