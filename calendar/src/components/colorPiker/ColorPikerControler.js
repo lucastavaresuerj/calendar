@@ -2,15 +2,16 @@ import React from "react";
 import { SketchPicker } from "react-color";
 import { Input, Label } from "semantic-ui-react";
 
-class ColorPiker extends React.Component {
+class ColorPikerControler extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { background: "#000", displayPiker: false };
+    this.state = { background: "", displayPiker: false };
     this.ref = React.createRef();
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.renderColorPiker = this.renderColorPiker.bind(this);
   }
 
   componentDidMount() {
@@ -28,7 +29,7 @@ class ColorPiker extends React.Component {
   }
 
   handleChange(color) {
-    this.setState({ background: color.hex });
+    this.setState({ background: color.hex.toUpperCase() });
   }
 
   renderColor() {
@@ -48,12 +49,14 @@ class ColorPiker extends React.Component {
   }
 
   renderColorPiker() {
+    const Component = this.props.component;
     return (
       <div className="popover">
-        <SketchPicker
+        <Component
           color={this.state.background}
+          colors={this.props.colors || undefined}
           onChange={this.handleChange}
-          onChangeComplete={() => console.log("cabo")}
+          onChangeComplete={({ hex }) => this.props.onChange(hex)}
           className="piker"
         />
       </div>
@@ -61,18 +64,20 @@ class ColorPiker extends React.Component {
   }
 
   render() {
+    const { onBlur, onDragStart, onDrop, onFocus } = this.props;
     return (
       <Input
         className="color-piker"
         labelPosition="right"
         type="text"
         placeholder="Pick a Color"
+        {...{ onBlur, onDragStart, onDrop, onFocus }}
       >
         <input
-          value={this.state.background.toUpperCase()}
+          value={this.state.background}
           onChange={({ target: { value } }) =>
             this.setState({
-              background: value.replace(/#(.+)?|(.+)/g, "#$1$2"),
+              background: value.replace(/#(.+)?|(.+)/g, "#$1$2").toUpperCase(),
             })
           }
         />
@@ -82,4 +87,4 @@ class ColorPiker extends React.Component {
   }
 }
 
-export default ColorPiker;
+export default ColorPikerControler;

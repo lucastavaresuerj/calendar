@@ -86,20 +86,20 @@
       "color": {
         "actualDay": "#fff",
         "week": { "sun": null, "sat": null },
-        "months": [
-          { "background": "blue", "table": null },
-          { "background": null, "table": null },
-          { "background": null, "table": null },
-          { "background": null, "table": null },
-          { "background": null, "table": null },
-          { "background": null, "table": null },
-          { "background": null, "table": null },
-          { "background": null, "table": null },
-          { "background": null, "table": null },
-          { "background": null, "table": null },
-          { "background": null, "table": null },
-          { "background": null, "table": null }
-        ]
+        "months": {
+          "0": { "background": "blue", "table": null },
+          "1": { "background": null, "table": null },
+          "2": { "background": null, "table": null },
+          "3": { "background": null, "table": null },
+          "4": { "background": null, "table": null },
+          "5": { "background": null, "table": null },
+          "6": { "background": null, "table": null },
+          "7": { "background": null, "table": null },
+          "8": { "background": null, "table": null },
+          "9": { "background": null, "table": null },
+          "10": { "background": null, "table": null },
+          "11": { "background": null, "table": null }
+        }
       }
     }
   ]

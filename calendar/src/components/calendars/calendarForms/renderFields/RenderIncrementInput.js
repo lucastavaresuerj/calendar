@@ -16,10 +16,9 @@ export default function RenderIncrementInput({
 }) {
   const [year, setYear] = useState(null);
 
-  function handeChange({ target: { value } }) {
+  function handleChange({ target: { value } }) {
     const newYear = isNaN(value) ? value : parseInt(value) || null;
     setYear(newYear);
-
     meta.dispatch(change(meta.form, input.name, newYear));
   }
 
@@ -37,7 +36,7 @@ export default function RenderIncrementInput({
           {...input}
           type={type}
           placeholder={placeholder}
-          onChange={handeChange}
+          onChange={handleChange}
         />
         <Button.Group>
           <Button type="button" icon="plus" onClick={() => handleButtons(1)} />

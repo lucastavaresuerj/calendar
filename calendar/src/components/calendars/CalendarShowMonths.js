@@ -30,8 +30,7 @@ class CalendarShowMonths extends React.Component {
               fluid
               className="month-card"
               style={{
-                backgroundColor:
-                  this.props.calendar.color.months[month].background,
+                backgroundColor: this.calendar.color.months[month].background,
               }}
             >
               <Link to={`${history.location.pathname}/${month}`}>
@@ -65,7 +64,7 @@ class CalendarShowMonths extends React.Component {
 
   renderEdit() {
     if (this.state.edit) {
-      return <CalendarEdit calendar={this.props.calendar} />;
+      return <CalendarEdit calendar={this.calendar} />;
     }
     return null;
   }
