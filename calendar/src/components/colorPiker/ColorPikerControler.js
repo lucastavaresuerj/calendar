@@ -1,12 +1,13 @@
 import React from "react";
-import { SketchPicker } from "react-color";
 import { Input, Label } from "semantic-ui-react";
+
+import { nameToHex } from "./convertColor";
 
 class ColorPikerControler extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { background: "", displayPiker: false };
+    this.state = { background: this.props.value || "", displayPiker: false };
     this.ref = React.createRef();
 
     this.handleChange = this.handleChange.bind(this);
@@ -28,7 +29,10 @@ class ColorPikerControler extends React.Component {
     }
   }
 
-  handleChange(color) {
+  handleChange(color, event) {
+    if (event.nativeEvent.type == "input" && this.props.blockInput) {
+      return;
+    }
     this.setState({ background: color.hex.toUpperCase() });
   }
 
@@ -48,15 +52,29 @@ class ColorPikerControler extends React.Component {
     );
   }
 
+  convertColorsNames(colors) {
+    return colors.map((color) => {
+      return nameToHex(color) || color;
+    });
+  }
+
   renderColorPiker() {
     const Component = this.props.component;
     return (
-      <div className="popover">
+      <div
+        className="popover"
+        onKeyPress={(e) => e.key === "Enter" && e.preventDefault()}
+        onKeyDown={(e) => this.props.blockInput && e.preventDefault()}
+      >
         <Component
           color={this.state.background}
-          colors={this.props.colors || undefined}
+          colors={
+            this.props.colors && this.convertColorsNames(this.props.colors)
+          }
           onChange={this.handleChange}
-          onChangeComplete={({ hex }) => this.props.onChange(hex)}
+          onChangeComplete={({ hex }) => {
+            this.props.onChange(hex.toUpperCase());
+          }}
           className="piker"
         />
       </div>

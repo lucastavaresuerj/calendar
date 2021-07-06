@@ -36,7 +36,11 @@ class CalendarShowMonths extends React.Component {
               <Link to={`${history.location.pathname}/${month}`}>
                 <h2 className="month-name center">{months.full[month]}</h2>
               </Link>
-              <CalendarMonth month={month} year={this.calendar.year} />
+              <CalendarMonth
+                month={month}
+                year={this.calendar.year}
+                color={this.calendar.color.months[month].table}
+              />
             </Card>
           </Grid.Column>
         );

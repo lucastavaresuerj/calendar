@@ -25,7 +25,6 @@ class CalendarShowMonth extends React.Component {
 
   renderMenu(months, back) {
     const { month } = this.state;
-    console.log(month);
     let menuItens = [];
     for (let m = 0; m < 12; m++) {
       menuItens.push(
@@ -64,8 +63,6 @@ class CalendarShowMonth extends React.Component {
   }
 
   render() {
-    console.log("aqui");
-
     if (!this.props.calendar) {
       return <div>Loading...</div>;
     }
@@ -85,6 +82,10 @@ class CalendarShowMonth extends React.Component {
                       <CalendarMonth
                         month={this.state.month}
                         year={this.props.calendar.year}
+                        color={
+                          this.props.calendar.color.months[this.state.month]
+                            .table
+                        }
                       />
                     </Grid.Column>
                   </Grid.Row>

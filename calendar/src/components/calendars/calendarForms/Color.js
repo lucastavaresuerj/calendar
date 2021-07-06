@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { Form, Button } from "semantic-ui-react";
 
-import Lang from "../../lang/Lang";
 import { RenderDropdown, RenderColorPiker } from "./renderFields";
+import { hexToName } from "../../colorPiker/convertColor";
+import Lang from "../../lang/Lang";
 
 const form = "ChoseColorForm";
 
@@ -30,6 +31,7 @@ class ChoseColor extends React.Component {
     const { calendar } = this.props;
     const sendValues = {};
 
+    monthColorPiker = hexToName(monthColorPiker).toLowerCase();
     sendValues.months = {};
     for (let month in calendar.color.months) {
       month = parseInt(month);
@@ -56,6 +58,27 @@ class ChoseColor extends React.Component {
 
   render() {
     const { calendar } = this.props;
+    const piker = {
+      type: "Twitter",
+      blockInput: true,
+      colors: [
+        "red",
+        "orange",
+        "yellow",
+        "olive",
+        "green",
+        "teal",
+        "blue",
+        "violet",
+        "purple",
+        "pink",
+        "brown",
+        "white",
+        "grey",
+        "black",
+      ],
+    };
+
     return (
       <Lang>
         {({ months: { full } }) => {
@@ -91,6 +114,7 @@ class ChoseColor extends React.Component {
                   type="text"
                   width={6}
                   component={RenderColorPiker}
+                  piker={piker}
                 />
               </Form.Group>
               <Form.Group>

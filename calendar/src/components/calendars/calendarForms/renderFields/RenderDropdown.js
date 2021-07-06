@@ -5,7 +5,7 @@ import { Form, Dropdown } from "semantic-ui-react";
 import RenderError from "./RenderError";
 
 export default function RenderDropdown({
-  input: { value, ...restInput },
+  input,
   options,
   label,
   placeholder,
@@ -20,14 +20,14 @@ export default function RenderDropdown({
 
   function handleChange(e, { value }) {
     setMonths(value);
-    meta.dispatch(change(meta.form, restInput.name, value));
+    meta.dispatch(change(meta.form, input.name, value));
   }
 
   return (
     <Form.Field width={width} error={error && touched && !warning}>
       <label>{label}</label>
       <Dropdown
-        {...restInput}
+        {...input}
         clearable
         fluid
         multiple
@@ -35,7 +35,7 @@ export default function RenderDropdown({
         selection
         options={options}
         value={months}
-        onBlur={() => meta.dispatch(blur(meta.form, restInput.name, months))}
+        onBlur={() => meta.dispatch(blur(meta.form, input.name, months))}
         onChange={handleChange}
       />
       <RenderError meta={meta} pointing />

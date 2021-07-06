@@ -91,7 +91,13 @@ class CalendarMonth extends React.Component {
         <Lang>
           {({ weeks }) => {
             return (
-              <Table className="table-month thingy" unstackable size="small">
+              <Table
+                className="table-month thingy"
+                unstackable
+                size="small"
+                color={this.props.color}
+                inverted={this.props.color && this.props.color != "white"}
+              >
                 <Table.Header attached="top">
                   <Table.Row>{this.renderHeaderWeek(weeks)}</Table.Row>
                 </Table.Header>

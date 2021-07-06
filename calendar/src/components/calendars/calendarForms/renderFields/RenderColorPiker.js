@@ -8,7 +8,6 @@ export default function RenderColorPiker({
   input,
   label,
   placeholder,
-  type,
   width,
   piker,
   disabled,
@@ -16,11 +15,11 @@ export default function RenderColorPiker({
   meta,
 }) {
   if (disabled) return null;
-  const Piker = colorPikers[piker || "Sketch"];
+  const Piker = colorPikers[(piker && piker.type) || "Sketch"];
   return (
     <Form.Field width={width} error={error && touched && !warning}>
       <label>{label}</label>
-      <Piker {...input} />
+      <Piker {...input} {...piker} />
       <RenderError meta={meta} pointing />
     </Form.Field>
   );

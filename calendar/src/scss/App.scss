@@ -142,3 +142,14 @@ input.text-line,
     cursor: pointer;
   }
 }
+
+.piker.twitter-picker {
+  div[title="white"],
+  div[title="#fff"],
+  div[title="#ffffff"],
+  div[title="#FFF"],
+  div[title="#FFFFFF"] {
+    border-width: 1px;
+    border-style: solid;
+  }
+}
